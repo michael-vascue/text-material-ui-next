@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { IconButton, styled, TableContainer, Theme } from "@material-ui/core";
 
-function App() {
+const NavListButton = styled(IconButton)(
+  ({ theme, $panelOpen }: { theme?: Theme, $panelOpen: boolean }) => ({
+    display: "inline-block",
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    margin: theme?.spacing(1),
+    backgroundColor: $panelOpen ? theme?.palette.secondary.dark : "transparent"
+  })
+);
+
+// using pure styled component
+const PrintableTableContainerSC = styled(TableContainer)`
+  @media print {
+    @page {
+      size: landscape;
+    }
+  }
+`;
+
+// using material-ui styled
+const PrintableTableContainer = styled(TableContainer)(() => ({
+  "@media print": {
+    "@page": { size: "landscape" }
+  }
+}));
+
+export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavListButton $panelOpen={true} />
+      <NavListButton $panelOpen={false} />
+      <PrintableTableContainerSC />
+      <PrintableTableContainer />
     </div>
   );
 }
-
-export default App;
